@@ -1,0 +1,15 @@
+PID algorithm has three main components namingly:
+P is proportional to the cross track error.
+This helps steering the vehicle to reduce cross track error.
+D for temporal derivative of the cross track error.
+This counter steers against proportional control by taking the current rate of change into account. This prevent over steers.
+I for integral of cross track error.
+This solves the systematic bias such as vehicle's tire misalignment.
+
+I started out by setting P to be 0.1 and D 0.1.
+It turns out the vehicle oscillate a lot and when the vehicle tries to turn, it will overshoot.
+First, I reduced P to 0.1, but it didn't provide enough turn to pass the first curve.
+I then did some tuning, finding if I set P to 0.3, it has smaller oscillation and also pass the cureves.
+Then I realized my D component is not big enough to provide a counter steer when the vehicle is already trying to compensate the cross track error by steering against the cross track error.
+So I then bumped up D to 20, this led to much less oscillation.
+Then I set the system bias error to be +0.4 steering. CTE never converged to 0 in this case. I then added the integral part to be 0.01. Then the cross track error converged to 0.
